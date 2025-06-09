@@ -13,20 +13,29 @@ def gantt_chart_view(df):
     df = df.copy()
     if not pd.api.types.is_datetime64_any_dtype(df["Date"]):
         df["Date"] = pd.to_datetime(df["Date"])
+    now = datetime.now()
+    # Filter to current month
+    df = df[(df["Date"].dt.year == now.year) & (df["Date"].dt.month == now.month)]
+    # Create a Day field for y-axis
+    df['Day'] = df["Date"].dt.day.astype(str)
     df['shift_start'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Start"])
     df['shift_end'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Actual End"])
     df["Worked (h)"] = df["Worked (h)"].round(2)
     df = df.sort_values("shift_start")
+
+    import plotly.express as px
     fig = px.timeline(
         df,
         x_start="shift_start",
         x_end="shift_end",
-        y="Date",
+        y="Day",
         color="Worked (h)",
-        title="Your Daily Shift Timeline (Gantt Chart)",
-        labels={"Worked (h)": "Hours Worked"}
+        title=f"Shifts per Day in {now.strftime('%B %Y')}",
+        labels={"Worked (h)": "Hours Worked"},
+        hover_data=["Start", "Actual End", "Worked (h)"]
     )
     fig.update_yaxes(autorange="reversed")
+    fig.update_traces(marker_line_width=0)
     st.plotly_chart(fig, use_container_width=True)
 
 
