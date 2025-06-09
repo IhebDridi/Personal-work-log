@@ -5,14 +5,16 @@ import calplot
 import matplotlib.pyplot as plt
 from shift_management.db import get_user_shifts
 from shift_management.logic import calc_account_stats
+from datetime import datetime
 
 def gantt_chart_view(df):
     df = df.copy()
-    # Ensure Date is datetime
     if not pd.api.types.is_datetime64_any_dtype(df["Date"]):
         df["Date"] = pd.to_datetime(df["Date"])
     df['shift_start'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Start"])
     df['shift_end'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Actual End"])
+    # Round worked hours to 2 decimals
+    df["Worked (h)"] = df["Worked (h)"].round(2)
     df = df.sort_values("shift_start")
     fig = px.timeline(
         df,
@@ -29,15 +31,25 @@ def gantt_chart_view(df):
 def calendar_heatmap_view(df):
     df = df.copy()
     df["Date"] = pd.to_datetime(df["Date"])
-    hours_per_day = df.groupby("Date")["Worked (h)"].sum()
-    fig, ax = calplot.calplot(
-        hours_per_day,
-        cmap="YlGn",
-        colorbar=True,
-        suptitle="Workload Calendar",
-        figsize=(14, 3)
-    )
-    st.pyplot(fig)
+    now = datetime.now()
+    current_year = now.year
+    current_month = now.month
+    mask = (df["Date"].dt.year == current_year) & (df["Date"].dt.month == current_month)
+    df_month = df[mask]
+    hours_per_day = df_month.groupby("Date")["Worked (h)"].sum()
+    if not hours_per_day.empty:
+        import calplot
+        import matplotlib.pyplot as plt
+        fig, ax = calplot.calplot(
+            hours_per_day,
+            cmap="YlGn",
+            colorbar=True,
+            suptitle=f"Workload Calendar ({now.strftime('%B %Y')})",
+            figsize=(14, 3)
+        )
+        st.pyplot(fig)
+    else:
+        st.info("No data for this month yet.")
 
 def run(username, settings):
     # Get all shifts & summary data
