@@ -11,10 +11,6 @@ This is a modern web application built with [Streamlit](https://streamlit.io) th
 - Secure, per-user login
 - Data never leaves your device/server (unless you run on Streamlit Cloud)
 
-## Demo
-
-![screenshot](screenshot.png)
-*(Add a screenshot if you like)*
 
 
 ## Installation
