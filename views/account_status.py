@@ -44,9 +44,7 @@ def gantt_chart_view(df):
         yaxis=dict(autorange='reversed'),  # puts today at the top
         xaxis_title='Time of Day',
         yaxis_title='Day of Month',
-        bargap=0.1,
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)'
+        bargap=0.1
     )
     fig.update_traces(marker_line_width=0)
     st.plotly_chart(fig, use_container_width=True)
