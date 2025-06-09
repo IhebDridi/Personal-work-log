@@ -27,8 +27,10 @@ def local_image_as_base64(image_path):
 img_b64 = local_image_as_base64("assets/wallpaper.jpg")
 
 
-st.markdown(
-    f"""
+mode = st.sidebar.radio("Theme", ["Light", "Dark"], index=0)
+
+if mode == "Light":
+    css = f"""
     <style>
     .stApp {{
         background-image: url("data:image/jpg;base64,{img_b64}");
@@ -36,15 +38,27 @@ st.markdown(
         background-position: center;
         background-repeat: no-repeat;
     }}
-    .p, h1, h3 {{color: #000 !important;}}
-    .stButton>button, .stTextInput>div>input, .stSidebar, .stRadio>div>label, .stMarkdown, .stNumberInput>div>input,
-    .css-1v3fvcr, .stDataFrame, .stDataTable, .stSelectbox>div>div>div, .stCheckbox>label, .stDateInput, .stTimeInput {{
+    html, body, [class*="st-"], .css-1v3fvcr {{
         color: #000 !important;
+        background-color: rgba(255,255,255,0.8) !important;
     }}
     </style>
-    """,
-    unsafe_allow_html=True
-)
+    """
+else:  # dark mode
+    css = f"""
+    <style>
+    .stApp {{
+        background: #222 !important;
+        background-image: none !important;
+    }}
+    html, body, [class*="st-"], .css-1v3fvcr {{
+        color: #eee !important;
+        background-color: #222 !important;
+    }}
+    </style>
+    """
+
+st.markdown(css, unsafe_allow_html=True)
 
 # ---------- Authentication UI and Logic ----------
 if "username" not in st.session_state:
