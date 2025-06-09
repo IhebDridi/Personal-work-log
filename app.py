@@ -1,6 +1,8 @@
 import streamlit as st
 import bcrypt
 
+import base64
+
 from shift_management.db import (
     register_user, user_exists, get_password_hash
 )
