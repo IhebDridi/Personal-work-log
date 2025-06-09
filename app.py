@@ -16,6 +16,20 @@ if "username" not in st.session_state:
 
 if not st.session_state.username:
     st.subheader("Login")
+    st.info(
+        """
+        **How to use the Work Hours Logger:**
+
+        - Enter just your username and click "Login". 
+        - You do not need a password; this system is per-user, not per-password.
+        - After logging in, you can:
+          * **Add shift:** Record your work start and end times, or log a paid/unpaid vacation.
+          * **Past shifts:** View, edit, and analyze your work and vacation history.
+          * **Account status:** See overtime stats, totals, and graphs for your work progress.
+          * **Account settings:** Set your default shift times or allotted vacation days.
+        - All data is stored on the server and is only visible to you.
+        """
+    )
     username = st.text_input("Username")
     if st.button("Login"):
         if username.strip():
