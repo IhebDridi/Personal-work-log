@@ -1,10 +1,17 @@
 import streamlit as st
 import bcrypt
+
 from shift_management.db import (
     init_db, register_user, user_exists, get_password_hash,
     get_user_settings
 )
-from views import account_status, add_shift, past_shifts, account_settings
+
+from views import (
+    account_status,
+    add_shift,
+    past_shifts,
+    account_settings
+)
 
 # ---------- App Startup ----------
 init_db()
