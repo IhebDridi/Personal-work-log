@@ -27,38 +27,24 @@ def local_image_as_base64(image_path):
 img_b64 = local_image_as_base64("assets/wallpaper.jpg")
 
 
-mode = st.sidebar.radio("Theme", ["Light", "Dark"], index=0)
-
-if mode == "Light":
-    css = f"""
-    <style>
+st.markdown(
+    f"""<style>
     .stApp {{
         background-image: url("data:image/jpg;base64,{img_b64}");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }}
-    html, body, [class*="st-"], .css-1v3fvcr {{
-        color: #000 !important;
-        background-color: rgba(255,255,255,0.8) !important;
+    body {{
+        background-image: url("data:image/jpg;base64,{img_b64}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
     }}
     </style>
-    """
-else:  # dark mode
-    css = f"""
-    <style>
-    .stApp {{
-        background: #222 !important;
-        background-image: none !important;
-    }}
-    html, body, [class*="st-"], .css-1v3fvcr {{
-        color: #eee !important;
-        background-color: #222 !important;
-    }}
-    </style>
-    """
-
-st.markdown(css, unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
 
 # ---------- Authentication UI and Logic ----------
 if "username" not in st.session_state:
