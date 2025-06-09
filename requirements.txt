@@ -6,3 +6,4 @@ Pillow
 python-dateutil
 bcrypt
 supabase
+calplot
