@@ -34,28 +34,28 @@ if not st.session_state.username:
         st.markdown("""
         ---
         ### 🔒 Privacy Notice for Work Hours Logger
-
+        
         - **What we collect:**  
           Your username, work shift times, and vacation entries.
         - **How we store it:**  
-          Data is securely stored in a database accessible only to this app’s code. Passwords are hashed.
+          Data is securely stored in a Supabase cloud database accessible only via this app’s code. Passwords are hashed using strong industry standards.
         - **Who can see your data:**  
           Only you (as the logged-in user) can view and edit your own shifts. Other users cannot access your data, and you cannot access theirs.
         - **Why we collect it:**  
           To help you track, analyze, and manage your work/vacation records for your own benefit.
         - **Where is your data stored:**  
-          On the Streamlit Cloud server that hosts this app. This cloud provider may use servers outside the EU.
+          On the Supabase cloud platform, which may host data within or outside the EU.
         - **How long:**  
-          Until you request deletion, or the project is shut down.
-
+          Until you choose to delete your account, or until the project is shut down.
+        
         **Your rights:**
-        - You can view or download your recorded data at any time via the "Download" button in the app.
+        - You can view, download, or export your recorded data at any time.
         - **You can delete your account and erase all your data at any time via the 'Account settings' page in the app.**
-        - You can also contact the admin at `iheb.dridi@stud.uni-due.de` for further assistance.
+        - You can also contact the admin at `your-email@example.com` for further assistance or data removal.
         - We will never share your data with third parties.
-
-        By signing up or logging in, you consent to store and process your data in accordance with this notice.
-
+        
+        By signing up or logging in, you consent to store and process your data in accordance with this notice and the [Supabase privacy policy](https://supabase.com/privacy).
+        
         ---
         """)
         if st.button("Close privacy policy"):
