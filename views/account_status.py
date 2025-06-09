@@ -14,31 +14,31 @@ def gantt_chart_view(df):
     df = df.copy()
     if not pd.api.types.is_datetime64_any_dtype(df["Date"]):
         df["Date"] = pd.to_datetime(df["Date"])
+
     now = datetime.now()
-    # Filter to the current month for compactness
-    df = df[(df["Date"].dt.year == now.year) & (df["Date"].dt.month == now.month)]
-    # Use day number or string as the task "name"
-    df['Day'] = df["Date"].dt.strftime("%b %d")  # e.g., 'Jun 09'
+    # Use only current month
+    df = df[(df["Date"].dt.year == now.year) & (df["Date"].dt.month == now.month)].sort_values("Date")
+    # Nth worked day in month counter
+    df["Workday #"] = range(1, len(df)+1)
+    # Time columns
     df['shift_start'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Start"])
     df['shift_end'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Actual End"])
     df["Worked (h)"] = df["Worked (h)"].round(2)
-    # Sort by day ascending so earliest day is at the top
-    df = df.sort_values("Day")
+
     fig = px.timeline(
         df,
-        y="Day",
+        y="Workday #",
         x_start="shift_start",
         x_end="shift_end",
         color="Worked (h)",
-        title=f"Shifts by Day ({now.strftime('%B %Y')})",
-        labels={"Worked (h)": "Hours Worked"},
+        title=f"Shift Timeline by Nth Workday ({now.strftime('%B %Y')})",
+        labels={"Worked (h)": "Hours Worked", "Workday #": "Workday of Month"},
         hover_data=["Start", "Actual End", "Worked (h)", "Date"],
         color_continuous_scale=px.colors.sequential.YlOrBr
     )
-    # Plotly's px.timeline uses a horizontal (left-to-right) layout as default!
     fig.update_layout(
         xaxis_title='Time of Day',
-        yaxis_title='Day',
+        yaxis_title='Workday this Month',
         bargap=0.1,
         plot_bgcolor=None,
         paper_bgcolor=None,
