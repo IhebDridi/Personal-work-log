@@ -35,6 +35,12 @@ st.markdown("""
     background-position: center;
     background-repeat: no-repeat;
 }
+    body {{
+        background-image: url("data:image/jpg;base64,{img_b64}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }}
 
 div[data-testid="stSidebar"], .css-1d391kg {
     background: rgba(255, 255, 255, 0.95); /* slightly transparent white */
