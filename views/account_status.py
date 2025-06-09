@@ -1,11 +1,9 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import calplot
-import matplotlib.pyplot as plt
+from datetime import datetime
 from shift_management.db import get_user_shifts
 from shift_management.logic import calc_account_stats
-from datetime import datetime
 
 def gantt_chart_view(df):
     df = df.copy()
@@ -13,7 +11,6 @@ def gantt_chart_view(df):
         df["Date"] = pd.to_datetime(df["Date"])
     df['shift_start'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Start"])
     df['shift_end'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Actual End"])
-    # Round worked hours to 2 decimals
     df["Worked (h)"] = df["Worked (h)"].round(2)
     df = df.sort_values("shift_start")
     fig = px.timeline(
@@ -52,7 +49,6 @@ def calendar_heatmap_view(df):
         st.info("No data for this month yet.")
 
 def run(username, settings):
-    # Get all shifts & summary data
     shifts = get_user_shifts(username)
     vdays = int(settings.get('vacation_days', 20))
     n_shifts, total_overtime, total_normal, vacation_days_left, vacations_used = calc_account_stats(shifts, vdays)
@@ -64,17 +60,12 @@ def run(username, settings):
     **Vacation days left**: {vacation_days_left}
     """)
 
-    # Build dataframe for visuals
     columns = ["ID", "Date", "Start", "Scheduled End", "Actual End", "Worked (h)", "Overtime (h)", "Vacation", "Unpaid Vacation"]
     df = pd.DataFrame(shifts, columns=columns)
 
     if not df.empty:
         st.markdown("### 📈 Visualizations")
-        # Gantt Chart
         gantt_chart_view(df)
-        # Calendar Heatmap
         calendar_heatmap_view(df)
-        
-        # (Optional: old charts, e.g. pie/bar, can go here too)
     else:
         st.info("No shift data yet. Add your first shift!")
