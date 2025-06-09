@@ -119,10 +119,10 @@ def run(username, settings):
 
     # 3. Charts: only if df is not empty
     if not df.empty:
+        st.markdown("### 📈 Visualizations")
         dnow = datetime.now()
         fig = month_calendar_heatmap(df, year=dnow.year, month=dnow.month, value_col="Worked (h)")
         st.pyplot(fig)
-        st.markdown("### 📈 Visualizations")
         gantt_chart_view(df)
 
     else:
