@@ -84,7 +84,5 @@ Feel free to open a pull request or issue.
 
 MIT License (or specify your license)
 
----
 
-> Built with [Streamlit](https://streamlit.io) and ❤️.
 
