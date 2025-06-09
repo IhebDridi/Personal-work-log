@@ -2,6 +2,8 @@
 
 This is a modern web application built with [Streamlit](https://streamlit.io) that allows you to log your work shifts, track paid/unpaid vacation, visualize overtime hours, and manage your shift history easily with plots and summaries. All data is stored using SQLite for convenience and portability.
 
+you can check it [here](https://small-personal-work-log.streamlit.app/) too by the way
+
 ## Features
 
 - Add, view, and edit shifts, with clock-in/clock-out times via time pickers
