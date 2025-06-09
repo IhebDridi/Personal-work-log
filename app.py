@@ -27,26 +27,24 @@ def local_image_as_base64(image_path):
 img_b64 = local_image_as_base64("assets/wallpaper.jpg")
 
 
-st.markdown("""
-<style>
-.stApp {
-    background-image: url("data:image/jpg;base64,{img_b64}");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
+st.markdown(
+    f"""<style>
+    .stApp {{
+        background-image: url("data:image/jpg;base64,{img_b64}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }}
     body {{
         background-image: url("data:image/jpg;base64,{img_b64}");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }}
-
-div[data-testid="stSidebar"], .css-1d391kg {
-    background: rgba(255, 255, 255, 0.95); /* slightly transparent white */
-}
-</style>
-""", unsafe_allow_html=True)
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # ---------- Authentication UI and Logic ----------
 if "username" not in st.session_state:
