@@ -5,11 +5,86 @@ from datetime import datetime
 from shift_management.db import get_user_shifts
 from shift_management.logic import calc_account_stats
 
+
 def gantt_chart_view(df):
-    # ... as before ...
+    df = df.copy()
+    if not pd.api.types.is_datetime64_any_dtype(df["Date"]):
+        df["Date"] = pd.to_datetime(df["Date"])
+    df['shift_start'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Start"])
+    df['shift_end'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Actual End"])
+    df["Worked (h)"] = df["Worked (h)"].round(2)
+    df = df.sort_values("shift_start")
+    fig = px.timeline(
+        df,
+        x_start="shift_start",
+        x_end="shift_end",
+        y="Date",
+        color="Worked (h)",
+        title="Your Daily Shift Timeline (Gantt Chart)",
+        labels={"Worked (h)": "Hours Worked"}
+    )
+    fig.update_yaxes(autorange="reversed")
+    st.plotly_chart(fig, use_container_width=True)
+
+def calendar_heatmap_view(df):
+    now = datetime.now()
+    if not df.empty:
+        fig = month_calendar_heatmap(df, year=now.year, month=now.month, value_col="Worked (h)")
+        st.pyplot(fig)
+    else:
+        st.info("No data for this month yet.")
 
 def month_calendar_heatmap(df, year=None, month=None, value_col="Worked (h)"):
-    # ... as before ...
+    if year is None or month is None:
+        d = datetime.now()
+        year, month = d.year, d.month
+
+    # Filter DataFrame to current month/year
+    df["Date"] = pd.to_datetime(df["Date"])
+    mask = (df["Date"].dt.year == year) & (df["Date"].dt.month == month)
+    dfm = df[mask]
+
+    # Aggregate values by day
+    values = dfm.groupby(dfm["Date"].dt.day)[value_col].sum().to_dict()
+
+    cal = calendar.monthcalendar(year, month)
+    weeks = len(cal)
+    arr = np.full((weeks, 7), np.nan)  # fill with NaN
+    for i, week in enumerate(cal):
+        for j, day in enumerate(week):
+            if day > 0:
+                arr[i, j] = values.get(day, 0)
+
+    # Plot
+    fig, ax = plt.subplots(figsize=(9, weeks+1))
+    cmap = plt.get_cmap("YlGn")
+    im = ax.imshow(arr, cmap=cmap, vmin=0)
+    # Add days of week
+    ax.set_xticks(np.arange(7))
+    ax.set_xticklabels(list(calendar.day_abbr))
+    # Add day numbers
+    for i in range(arr.shape[0]):
+        for j in range(7):
+            day_nr = cal[i][j]
+            if day_nr != 0:
+                txt = str(int(day_nr))
+                color = "black" if np.isnan(arr[i, j]) or arr[i, j] < (np.nanmax(arr)/2) else "white"
+                ax.text(j, i, f"{txt}\n{arr[i, j]:.2f}" if arr[i, j] else txt, va='center', ha='center', color=color, fontsize=10)
+    # Label title
+    month_name = calendar.month_name[month]
+    ax.set_title(f"Workload Heatmap - {month_name} {year}")
+    ax.set_yticks([])
+    plt.colorbar(im, ax=ax, shrink=0.7)
+    plt.tight_layout()
+    return fig
+
+# Usage in your view:
+if not df.empty:
+    dnow = datetime.now()
+    fig = month_calendar_heatmap(df, year=dnow.year, month=dnow.month, value_col="Worked (h)")
+    st.pyplot(fig)
+else:
+    st.info("No data for this month yet.")
 
 def run(username, settings):
     # 1. Get data and assemble DataFrame
