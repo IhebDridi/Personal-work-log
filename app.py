@@ -36,22 +36,14 @@ st.markdown(
         background-position: center;
         background-repeat: no-repeat;
     }}
-    html, body, [class*="st-"], .stMarkdown, .stRadio>div>label, .css-1v3fvcr {{
+    html, body, [class*="st-"], .css-1v3fvcr {{
         color: #000 !important;
     }}
-    /* Exemptions: Don't force black text on buttons/inputs for accessibility */
-    .stButton > button,
-    .stTextInput input,
-    .stTextArea textarea,
-    .stNumberInput input,
-    .stSelectbox div[data-baseweb="select"] div,
-    .stDateInput input,
-    .stTimeInput input,
-    .stSidebar *,
-    .stCheckbox > label
-    {{
-        color: inherit !important;
+    .stButton>button, .stTextInput>div>input, .stSidebar, .stRadio>div>label, .stMarkdown, .stNumberInput>div>input,
+    .css-1v3fvcr, .stDataFrame, .stDataTable, .stSelectbox>div>div>div, .stCheckbox>label, .stDateInput, .stTimeInput {{
+        color: #000 !important;
     }}
+    
     </style>
     """,
     unsafe_allow_html=True
