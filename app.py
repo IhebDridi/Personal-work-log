@@ -36,9 +36,7 @@ st.markdown(
         background-position: center;
         background-repeat: no-repeat;
     }}
-    html, body, [class*="st-"], .css-1v3fvcr {{
-        color: #000 !important;
-    }}
+
      .stRadio>div>label, .stMarkdown, .stNumberInput>div>input,
     .css-1v3fvcr, .stDataFrame, .stDataTable, .stSelectbox>div>div>div, .stCheckbox>label, .stDateInput, .stTimeInput {{
         color: #000 !important;
