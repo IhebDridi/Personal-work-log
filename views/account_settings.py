@@ -36,8 +36,10 @@ def run(username, settings):
     st.markdown("---")
     st.markdown("### Danger zone: Account removal")
     confirm_delete = st.checkbox(
-    "Yes, I really want to delete my account and all my data.", key="confirm_delete"
-)
+    "Yes, I really want to delete my account and all my data.",
+    key=f"confirm_delete_{username}"  # make key user-specific
+    )
+
     st.markdown("### ⚠️ Danger zone: Account removal")
 
     # Always show the checkbox
@@ -45,7 +47,7 @@ def run(username, settings):
         "Yes, I really want to delete my account and all my data.",
         key="confirm_delete"
     )
-    
+
     # Always show the button, act only if checkbox is checked
     if st.button("Delete my account and all data", type="primary"):
         if confirm_delete:
