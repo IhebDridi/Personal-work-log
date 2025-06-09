@@ -13,7 +13,7 @@ from views import account_status, add_shift, past_shifts, account_settings
 
 # ---------- App Startup ----------
 
-st.title("Work Hours Logger (SQLite)")
+st.title("Work Hours Logger")
 
 # ---------- Authentication UI and Logic ----------
 if "username" not in st.session_state:
