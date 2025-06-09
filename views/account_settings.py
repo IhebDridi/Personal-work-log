@@ -35,11 +35,14 @@ def run(username, settings):
      # --- Account Deletion Section ---
     st.markdown("---")
     st.markdown("### Danger zone: Account removal")
-    if st.button("Delete my account and all data", type="primary"):
-        if st.checkbox("Yes, I really want to delete my account and all my data.", key="confirm_delete"):
-            remove_user_fully(username)
-            st.success("Your user, settings, and all shift data were deleted. App will now log you out.")
-            st.session_state.username = ""
-            st.rerun()
-        else:
-            st.warning("You must tick the box to confirm account removal.")
+    confirm_delete = st.checkbox(
+    "Yes, I really want to delete my account and all my data.", key="confirm_delete"
+)
+if st.button("Delete my account and all data", type="primary"):
+    if confirm_delete:
+        remove_user_fully(username)
+        st.success("Your user, settings, and all shift data were deleted. App will now log you out.")
+        st.session_state.username = ""
+        st.rerun()
+    else:
+        st.warning("You must tick the box to confirm account removal.")
