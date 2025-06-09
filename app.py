@@ -28,19 +28,27 @@ img_b64 = local_image_as_base64("assets/wallpaper.jpg")
 
 
 st.markdown(
-    f"""<style>
+    f"""
+    <style>
     .stApp {{
         background-image: url("data:image/jpg;base64,{img_b64}");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        position: relative;
     }}
-    body {{
-        background-image: url("data:image/jpg;base64,{img_b64}");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+    .stApp::before {{
+        content: "";
+        position: fixed;
+        inset: 0 0 0 0;
+        z-index: 0;
+        background: rgba(255,255,255,0.5); /* 0.5 = 50% white overlay */
+        pointer-events: none;
     }}
+    html, body, [class*="st-"], .css-1v3fvcr {{
+        color: #000 !important;
+    }}
+    /* ... other color rules as above ... */
     </style>
     """,
     unsafe_allow_html=True
