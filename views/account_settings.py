@@ -40,12 +40,6 @@ def run(username, settings):
     key=f"confirm_delete_{username}"  # make key user-specific
     )
 
-    # Always show the checkbox
-    confirm_delete = st.checkbox(
-        "Yes, I really want to delete my account and all my data.",
-        key="confirm_delete"
-    )
-
     # Always show the button, act only if checkbox is checked
     if st.button("Delete my account and all data", type="primary"):
         if confirm_delete:
