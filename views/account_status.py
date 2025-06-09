@@ -10,31 +10,44 @@ from shift_management.logic import calc_account_stats
 
 
 def gantt_chart_view(df):
+    import plotly.express as px
+    import numpy as np
+
     df = df.copy()
     if not pd.api.types.is_datetime64_any_dtype(df["Date"]):
         df["Date"] = pd.to_datetime(df["Date"])
     now = datetime.now()
     # Filter to current month
     df = df[(df["Date"].dt.year == now.year) & (df["Date"].dt.month == now.month)]
-    # Create a Day field for y-axis
-    df['Day'] = df["Date"].dt.day.astype(str)
+
+    # Day number as a string, with leading zeros for better visual sorting (or as int for natural sorting)
+    df['Day'] = df["Date"].dt.day.astype(int)
     df['shift_start'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Start"])
     df['shift_end'] = pd.to_datetime(df["Date"].dt.strftime("%Y-%m-%d") + " " + df["Actual End"])
     df["Worked (h)"] = df["Worked (h)"].round(2)
-    df = df.sort_values("shift_start")
 
-    import plotly.express as px
+    # Sort from last day to first day, so most recent on top
+    df = df.sort_values("Day", ascending=False)
+
     fig = px.timeline(
         df,
+        y="Day",                     # days of month on y axis
         x_start="shift_start",
         x_end="shift_end",
-        y="Day",
-        color="Worked (h)",
-        title=f"Shifts per Day in {now.strftime('%B %Y')}",
+        color="Worked (h)",          # Color by worked hours
+        title=f"Shifts by Day of Month ({now.strftime('%B %Y')})",
         labels={"Worked (h)": "Hours Worked"},
-        hover_data=["Start", "Actual End", "Worked (h)"]
+        hover_data=["Start", "Actual End", "Worked (h)", "Date"],
+        color_continuous_scale=px.colors.sequential.YlOrBr
     )
-    fig.update_yaxes(autorange="reversed")
+    fig.update_layout(
+        yaxis=dict(autorange='reversed'),  # puts today at the top
+        xaxis_title='Time of Day',
+        yaxis_title='Day of Month',
+        bargap=0.1,
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)'
+    )
     fig.update_traces(marker_line_width=0)
     st.plotly_chart(fig, use_container_width=True)
 
