@@ -91,9 +91,17 @@ else:
     st.info("No data for this month yet.")
 
 def run(username, settings):
+    # Get all shifts
     shifts = get_user_shifts(username)
+
+    # Define column headers exactly as per your DB/output
+    columns = ["ID", "Date", "Start", "Scheduled End", "Actual End", "Worked (h)", "Overtime (h)", "Vacation", "Unpaid Vacation"]
+    df = pd.DataFrame(shifts, columns=columns)
+
+    # Now df is defined; safe to call visualization functions
     vdays = int(settings.get('vacation_days', 20))
     n_shifts, total_overtime, total_normal, vacation_days_left, vacations_used = calc_account_stats(shifts, vdays)
+
     st.markdown(f"""
     **Shifts worked**: {n_shifts}  
     **Total overtime hours**: {total_overtime:.2f}  
@@ -101,9 +109,6 @@ def run(username, settings):
     **Vacation days used**: {vacations_used}  
     **Vacation days left**: {vacation_days_left}
     """)
-
-    columns = ["ID", "Date", "Start", "Scheduled End", "Actual End", "Worked (h)", "Overtime (h)", "Vacation", "Unpaid Vacation"]
-    df = pd.DataFrame(shifts, columns=columns)
 
     if not df.empty:
         st.markdown("### 📈 Visualizations")
