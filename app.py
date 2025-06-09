@@ -36,14 +36,10 @@ st.markdown(
         background-position: center;
         background-repeat: no-repeat;
     }}
-    html, body, [class*="st-"], .css-1v3fvcr {{
+    html, body, [class*="st-"], .stMarkdown, .stRadio>div>label, .css-1v3fvcr {{
         color: #000 !important;
     }}
-    .stButton>button, .stTextInput>div>input, .stSidebar, .stRadio>div>label, .stMarkdown, .stNumberInput>div>input,
-    .css-1v3fvcr, .stDataFrame, .stDataTable, .stSelectbox>div>div>div, .stCheckbox>label, .stDateInput, .stTimeInput {{
-        color: #000 !important;
-    }}
-        /* EXCEPT these: keep default/system text color for accessibility */
+    /* Exemptions: Don't force black text on buttons/inputs for accessibility */
     .stButton > button,
     .stTextInput input,
     .stTextArea textarea,
