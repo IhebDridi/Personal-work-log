@@ -30,6 +30,14 @@ def gantt_chart_view(df):
     fig.update_yaxes(autorange="reversed")
     st.plotly_chart(fig, use_container_width=True)
 
+def calendar_heatmap_view(df):
+    now = datetime.now()
+    if not df.empty:
+        fig = month_calendar_heatmap(df, year=now.year, month=now.month, value_col="Worked (h)")
+        st.pyplot(fig)
+    else:
+        st.info("No data for this month yet.")
+
 def month_calendar_heatmap(df, year=None, month=None, value_col="Worked (h)"):
     if year is None or month is None:
         d = datetime.now()
