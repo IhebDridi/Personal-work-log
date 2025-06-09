@@ -28,14 +28,16 @@ def init_db():
     ''')
     conn.commit()
     conn.close()
-
-def save_shift(username, date, start, scheduled_end, actual_end, hours_worked, overtime, is_vacation):
+    
+def save_shift(username, date, start, scheduled_end, actual_end, hours_worked, overtime, is_vacation, is_unpaid_vacation):
     conn = sqlite3.connect('worklogs.db')
     c = conn.cursor()
     c.execute('''
-        INSERT INTO shifts (username, date, start, scheduled_end, actual_end, hours_worked, overtime, is_vacation)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (username, date, start, scheduled_end, actual_end, hours_worked, overtime, is_vacation))
+        INSERT INTO shifts (
+            username, date, start, scheduled_end, actual_end,
+            hours_worked, overtime, is_vacation, is_unpaid_vacation
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (username, date, start, scheduled_end, actual_end, hours_worked, overtime, is_vacation, is_unpaid_vacation))
     conn.commit()
     conn.close()
 
