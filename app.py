@@ -51,7 +51,7 @@ if not st.session_state.username:
         **Your rights:**
         - You can view or download your recorded data at any time via the "Download" button in the app.
         - **You can delete your account and erase all your data at any time via the 'Account settings' page in the app.**
-        - You can also contact the admin at `your-email@example.com` for further assistance.
+        - You can also contact the admin at `iheb.dridi@stud.uni-due.de` for further assistance.
         - We will never share your data with third parties.
 
         By signing up or logging in, you consent to store and process your data in accordance with this notice.
