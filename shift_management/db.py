@@ -1,8 +1,16 @@
 import sqlite3
 
+import sqlite3
+
 def init_db():
     conn = sqlite3.connect('worklogs.db')
     c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            username TEXT PRIMARY KEY,
+            password_hash TEXT NOT NULL
+        )
+    ''')
     c.execute('''
         CREATE TABLE IF NOT EXISTS shifts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,7 +36,35 @@ def init_db():
     ''')
     conn.commit()
     conn.close()
-    
+
+def register_user(username, password_hash):
+    conn = sqlite3.connect('worklogs.db')
+    c = conn.cursor()
+    try:
+        c.execute('INSERT INTO users (username, password_hash) VALUES (?, ?)', (username, password_hash))
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.close()
+        return False
+    conn.close()
+    return True
+
+def get_password_hash(username):
+    conn = sqlite3.connect('worklogs.db')
+    c = conn.cursor()
+    c.execute('SELECT password_hash FROM users WHERE username=?', (username,))
+    row = c.fetchone()
+    conn.close()
+    return row[0] if row else None
+
+def user_exists(username):
+    conn = sqlite3.connect('worklogs.db')
+    c = conn.cursor()
+    c.execute('SELECT 1 FROM users WHERE username=?', (username,))
+    exists = c.fetchone() is not None
+    conn.close()
+    return exists
+
 def save_shift(username, date, start, scheduled_end, actual_end, hours_worked, overtime, is_vacation, is_unpaid_vacation):
     conn = sqlite3.connect('worklogs.db')
     c = conn.cursor()

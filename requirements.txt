@@ -4,3 +4,4 @@ plotly
 matplotlib
 Pillow
 python-dateutil
+bcrypt

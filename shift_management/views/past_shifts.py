@@ -74,7 +74,7 @@ def run(username, settings):
                 hours_worked, overtime, int(new_is_vac), int(new_is_unpaid_vac)
             )
             st.success("Updated shift.")
-            st.experimental_rerun()
+            st.rerun()
         except Exception as ex:
             st.error(f"Error updating: {ex}")
 
