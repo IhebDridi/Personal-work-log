@@ -49,6 +49,6 @@ def run(username, settings):
                     hours_worked, overtime, int(is_vacation), int(is_unpaid_vac)
                 )
                 st.success("Shift saved.")
-                st.experimental_rerun()
+                st.rerun()
             except Exception as ex:
                 st.error(f"Could not save shift: {ex}")

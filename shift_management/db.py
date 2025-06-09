@@ -107,3 +107,13 @@ def get_shift_by_id(shift_id):
     row = c.fetchone()
     conn.close()
     return row
+
+def remove_user_fully(username):
+    conn = sqlite3.connect('worklogs.db')
+    c = conn.cursor()
+    # Remove all user data from all related tables
+    c.execute('DELETE FROM users WHERE username=?', (username,))
+    c.execute('DELETE FROM shifts WHERE username=?', (username,))
+    c.execute('DELETE FROM user_settings WHERE username=?', (username,))
+    conn.commit()
+    conn.close()

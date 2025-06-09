@@ -19,25 +19,64 @@ st.title("Work Hours Logger (SQLite)")
 if "username" not in st.session_state:
     st.session_state.username = ""
 
+
+# --- Privacy Policy Modal Toggle ---
+if "show_privacy" not in st.session_state:
+    st.session_state.show_privacy = False
+
 if not st.session_state.username:
     st.subheader("Welcome! Please Sign Up or Log In.")
-    st.info(
-        """
-        **How to use the Work Hours Logger:**
-        - Sign Up with a unique username and password, or log in if you already have an account.
-        - Your data is protected: you can only see and edit your own shifts and settings.
-        - Use the sidebar for: Account Status (stats & charts), Add Shift (log your work), Past Shifts (view/edit), and Account Settings (change your defaults).
-        - All data is securely stored and instantly available after login.
-        """
-    )
+
+    if st.button("Read privacy policy"):
+        st.session_state.show_privacy = True
+
+    if st.session_state.show_privacy:
+        st.markdown("""
+        ---
+        ### 🔒 Privacy Notice for Work Hours Logger
+
+        - **What we collect:**  
+          Your username, work shift times, and vacation entries.
+        - **How we store it:**  
+          Data is securely stored in a database accessible only to this app’s code. Passwords are hashed.
+        - **Who can see your data:**  
+          Only you (as the logged-in user) can view and edit your own shifts. Other users cannot access your data, and you cannot access theirs.
+        - **Why we collect it:**  
+          To help you track, analyze, and manage your work/vacation records for your own benefit.
+        - **Where is your data stored:**  
+          On the Streamlit Cloud server that hosts this app. This cloud provider may use servers outside the EU.
+        - **How long:**  
+          Until you request deletion, or the project is shut down.
+
+        **Your rights:**
+        - You can view or download your recorded data at any time via the "Download" button in the app.
+        - **You can delete your account and erase all your data at any time via the 'Account settings' page in the app.**
+        - You can also contact the admin at `your-email@example.com` for further assistance.
+        - We will never share your data with third parties.
+
+        By signing up or logging in, you consent to store and process your data in accordance with this notice.
+
+        ---
+        """)
+        if st.button("Close privacy policy"):
+            st.session_state.show_privacy = False
+        st.stop()  # Only show privacy until closed
+
     choice = st.radio("Choose an option", ["Login", "Sign Up"])
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
+
+# Checkbox for privacy policy consent, required for Sign Up
+    consent = True  # always True for login
+    if choice == "Sign Up":
+        consent = st.checkbox("I have read and agree to the Privacy Policy above.", value=False)
 
     if choice == "Sign Up":
         if st.button("Sign Up"):
             if not username.strip() or not password.strip():
                 st.warning("Please enter both a username and a password.")
+            elif not consent:
+                st.warning("You must agree to the privacy policy to sign up.")
             elif user_exists(username.strip()):
                 st.error("That username already exists. Please choose another.")
             else:
