@@ -12,7 +12,7 @@ from views import account_status, add_shift, past_shifts, account_settings
 
 
 # ---------- App Startup ----------
-init_db()
+
 st.title("Work Hours Logger (SQLite)")
 
 # ---------- Authentication UI and Logic ----------
