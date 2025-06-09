@@ -35,20 +35,14 @@ st.markdown(
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        position: relative;
-    }}
-    .stApp::before {{
-        content: "";
-        position: fixed;
-        inset: 0 0 0 0;
-        z-index: 0;
-        background: rgba(255,255,255,0.5); /* 0.5 = 50% white overlay */
-        pointer-events: none;
     }}
     html, body, [class*="st-"], .css-1v3fvcr {{
         color: #000 !important;
     }}
-    /* ... other color rules as above ... */
+    .stRadio>div>label, .stMarkdown,
+    .css-1v3fvcr, .stCheckbox>label {{
+        color: #000 !important;
+    }}
     </style>
     """,
     unsafe_allow_html=True
