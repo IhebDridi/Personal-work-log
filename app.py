@@ -15,6 +15,31 @@ from views import account_status, add_shift, past_shifts, account_settings
 
 st.title("Work Hours Logger")
 
+# ---------- Background stuff and css ----------
+
+def local_image_as_base64(image_path):
+    with open(image_path, "rb") as f:
+        image_data = f.read()
+    return base64.b64encode(image_data).decode()
+
+img_b64 = local_image_as_base64("assets/wallpaper.jpg")
+
+
+st.markdown("""
+<style>
+.stApp {
+    background-image: url("data:image/jpg;base64,{img_b64}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+div[data-testid="stSidebar"], .css-1d391kg {
+    background: rgba(255, 255, 255, 0.95); /* slightly transparent white */
+}
+</style>
+""", unsafe_allow_html=True)
+
 # ---------- Authentication UI and Logic ----------
 if "username" not in st.session_state:
     st.session_state.username = ""
