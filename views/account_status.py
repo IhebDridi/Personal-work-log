@@ -26,13 +26,7 @@ def gantt_chart_view(df):
     fig.update_yaxes(autorange="reversed")
     st.plotly_chart(fig, use_container_width=True)
 
-def calendar_heatmap_view(df):
-    now = datetime.now()
-    if not df.empty:
-        fig = month_calendar_heatmap(df, year=now.year, month=now.month, value_col="Worked (h)")
-        st.pyplot(fig)
-    else:
-        st.info("No data for this month yet.")
+
 
 def month_calendar_heatmap(df, year=None, month=None, value_col="Worked (h)"):
     if year is None or month is None:
@@ -86,6 +80,14 @@ if not df.empty:
 else:
     st.info("No data for this month yet.")
 
+def calendar_heatmap_view(df):
+    now = datetime.now()
+    if not df.empty:
+        fig = month_calendar_heatmap(df, year=now.year, month=now.month, value_col="Worked (h)")
+        st.pyplot(fig)
+    else:
+        st.info("No data for this month yet.")
+
 def run(username, settings):
     # 1. Get data and assemble DataFrame
     shifts = get_user_shifts(username)
@@ -107,7 +109,6 @@ def run(username, settings):
     if not df.empty:
         st.markdown("### 📈 Visualizations")
         gantt_chart_view(df)
-        # --- calendar heatmap for current month
         dnow = datetime.now()
         fig = month_calendar_heatmap(df, year=dnow.year, month=dnow.month, value_col="Worked (h)")
         st.pyplot(fig)
