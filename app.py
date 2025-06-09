@@ -2,7 +2,7 @@ import streamlit as st
 import bcrypt
 
 from shift_management.db import (
-    init_db, register_user, user_exists, get_password_hash
+    register_user, user_exists, get_password_hash
 )
 from shift_management.settings import get_user_settings
 
