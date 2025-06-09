@@ -36,8 +36,8 @@ st.markdown(
         background-position: center;
         background-repeat: no-repeat;
     }}
-
-     .stRadio>div>label, .stMarkdown, .stNumberInput>div>input,
+    .p, h1, h3 {{color: #000 !important;}}
+    .stButton>button, .stTextInput>div>input, .stSidebar, .stRadio>div>label, .stMarkdown, .stNumberInput>div>input,
     .css-1v3fvcr, .stDataFrame, .stDataTable, .stSelectbox>div>div>div, .stCheckbox>label, .stDateInput, .stTimeInput {{
         color: #000 !important;
     }}
