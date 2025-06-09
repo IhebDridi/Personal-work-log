@@ -72,13 +72,7 @@ def month_calendar_heatmap(df, year=None, month=None, value_col="Worked (h)"):
     plt.tight_layout()
     return fig
 
-# Usage in your view:
-if not df.empty:
-    dnow = datetime.now()
-    fig = month_calendar_heatmap(df, year=dnow.year, month=dnow.month, value_col="Worked (h)")
-    st.pyplot(fig)
-else:
-    st.info("No data for this month yet.")
+
 
 def calendar_heatmap_view(df):
     now = datetime.now()
