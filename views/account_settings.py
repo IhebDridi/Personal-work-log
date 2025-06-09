@@ -40,8 +40,6 @@ def run(username, settings):
     key=f"confirm_delete_{username}"  # make key user-specific
     )
 
-    st.markdown("### ⚠️ Danger zone: Account removal")
-
     # Always show the checkbox
     confirm_delete = st.checkbox(
         "Yes, I really want to delete my account and all my data.",
