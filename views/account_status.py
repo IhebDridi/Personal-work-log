@@ -1,7 +1,10 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import plotly.express as px
 from datetime import datetime
+import calendar
+import matplotlib.pyplot as plt
 from shift_management.db import get_user_shifts
 from shift_management.logic import calc_account_stats
 
