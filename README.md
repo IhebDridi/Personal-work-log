@@ -16,23 +16,6 @@ This is a modern web application built with [Streamlit](https://streamlit.io) th
 ![screenshot](screenshot.png)
 *(Add a screenshot if you like)*
 
-## Project Structure
-
-.
-├── app.py
-├── requirements.txt
-├── shift_management/
-│   ├── __init__.py
-│   ├── db.py
-│   ├── logic.py
-│   ├── settings.py
-│   ├── ui.py
-├── views/
-│   ├── __init__.py
-│   ├── account_status.py
-│   ├── add_shift.py
-│   ├── past_shifts.py
-│   └── account_settings.py
 
 ## Installation
 
